@@ -8,28 +8,28 @@ Get temps in fahrenheit from file, convert to celsius and write back to file.
 """
 import random
 
-global fahrenheit_temps
-global celsius_temps
-fahrenheit_temps = ""
-celsius_temps = ""
+global FAHRENHEIT_TEMPS
+global CELSIUS_TEMPS
+FAHRENHEIT_TEMPS = ""
+CELSIUS_TEMPS = ""
 
 
 def generate_fahrenheit_temps():
     """ Getting the fahrenheit temps"""
-    global i, fahrenheit_temps
+    global i, FAHRENHEIT_TEMPS
     for i in range(0, 15):
         random_number = random.uniform(-200, 200)
         random_number_str = str(random_number)
-        fahrenheit_temps += random_number_str
-        fahrenheit_temps += "\n"
+        FAHRENHEIT_TEMPS += random_number_str
+        FAHRENHEIT_TEMPS += "\n"
 
 
 generate_fahrenheit_temps()
 
-print(fahrenheit_temps)
+print(FAHRENHEIT_TEMPS)
 
 output_file = open("temp_inputs.txt", "w")
-output_file.write(fahrenheit_temps)
+output_file.write(FAHRENHEIT_TEMPS)
 output_file.close()
 
 input_file = open("temp_inputs.txt", "r")
@@ -37,7 +37,7 @@ input_file = open("temp_inputs.txt", "r")
 
 def calculate_celsius_temps():
     """Getting the celsius temps"""
-    global i, celsius_temps
+    global i, CELSIUS_TEMPS
     for i in range(0, 15):
         temp_input = input_file.readline().strip()
         temp_input_float = float(temp_input)
@@ -46,8 +46,8 @@ def calculate_celsius_temps():
         celsius_temp = 5 / 9 * (temp_input_float - 32)
         celsius_temp_str = str(celsius_temp)
         print(celsius_temp_str)
-        celsius_temps += celsius_temp_str
-        celsius_temps += "\n"
+        CELSIUS_TEMPS += celsius_temp_str
+        CELSIUS_TEMPS += "\n"
 
 
 calculate_celsius_temps()
@@ -55,7 +55,7 @@ calculate_celsius_temps()
 input_file.close()
 
 read_file = open("temp_inputs.txt ", "w")
-read_file.write(celsius_temps)
+read_file.write(CELSIUS_TEMPS)
 read_file.close()
 
 
