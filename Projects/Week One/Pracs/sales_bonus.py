@@ -21,7 +21,8 @@ if sales <= 0:
     sales = int(input("Please enter the amount of sales "))
 
 
-def get_sales_value():  # Getting the value of the sales based on the amount of sales
+def get_sales_value():
+    """Getting the value of the sales based on the amount of sales"""
     for i in range(0, sales, 1):
         sale_value = float(input("Please enter the value of the sales "))
         sale_value += sale_value
@@ -31,7 +32,8 @@ def get_sales_value():  # Getting the value of the sales based on the amount of 
 total_sales_value = float(get_sales_value())  # Converting the value into a global float object
 
 
-def get_bonus_total(): # Calculating and formatting the bonus based on the value of the sales
+def get_bonus_total():
+    """Calculating and formatting the bonus based on the value of the sales"""
     if total_sales_value >= 1000:
         print("Your bonus is : $ {:.2f}".format(total_sales_value * 0.15))
     else:
