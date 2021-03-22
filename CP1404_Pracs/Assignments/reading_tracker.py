@@ -7,6 +7,7 @@ Menu based program, store book lists in file and modify them when needed.
 
 
 """
+from operator import itemgetter
 
 
 def main():
@@ -65,21 +66,29 @@ def display_book_amount():
 def list_all_books(base_list):
     base_list.sort()
     base_list_length = len(base_list)
-    print(base_list_length)
+    for i in range(0,base_list_length):
+        string_list = str(base_list[i])
 
-    for i in range(0, base_list_length):
-        print(base_list[i])
+        split_list = string_list.split(',')
+        title = split_list[0].replace('[', "")
+        author = split_list[1].replace("'", "")
+        pages = split_list[2]
+        if "R" in split_list[3]:
+            print("*",end="")
+        print("Title: ", title, end="\t")
+        print("Author: ", author, end="\t")
+        print("Pages: ", pages)
 
 
 def add_book_to_list(base_list):
     try:
-        title = input("Title: ")
+        title = input("Title: ").title()
     except EOFError:
-        title = input("Title cannot be blank ")
+        title = input("Title cannot be blank ").title()
     try:
-        author = input("Author: ")
+        author = input("Author: ").title()
     except EOFError:
-        author = input("Author cannot be blank ")
+        author = input("Author cannot be blank ").title()
     try:
         pages = int(input("Pages: "))
     except (ValueError, EOFError):
