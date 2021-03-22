@@ -17,25 +17,32 @@ def main():
     input_file = open("book_file.csv", "r")
     base_list = input_file.readlines()
     input_file.close()
+    print(base_list)
 
     menu_choice = input("Please select an option").upper()
     while menu_choice != "Q":
         if menu_choice == "L":
-            list_all_books()
+            list_all_books(base_list)
             menu_choice = input("Please select an option").upper()
         elif menu_choice == "A":
 
-            add_book = str([add_book_to_list()])
-            base_list.extend(add_book)
+            add_book_to_list(base_list)
             menu_choice = input("Please select an option").upper()
         elif menu_choice == "M":
+            try:
+                file_mark = int(input("Which book would you like to mark as completed? "))
+            except:
+                file_mark = int(input("Which book would you like to mark as completed? "))
 
-            menu_choice = input("Please select an option").upper()
-            file_changes = [mark_as_completed()]
-            base_list[file_changes[1]] = file_changes[0]
+            file_changes = [mark_as_completed(file_mark, base_list)]
+            base_list[file_mark] = file_changes[0]
 
     output_file = open("book_file.csv", "w")
-    output_file.writelines(base_list)
+    print(len(base_list))
+    base_list_len = len(base_list)
+    for i in range(0, base_list_len):
+        output_file.write(str(base_list[i]))
+
     output_file.close()
 
 
@@ -55,33 +62,16 @@ def display_book_amount():
     file_length.close()
 
 
-def list_all_books():
-    book_list = open("book_file.csv", "r")
-    book_list_input = book_list.readlines()
-    book_list_input.sort()
-    pages_sum = 0
-    for i in range(0, len(book_list_input)):
-        title_list = book_list_input[i]
-        title_list_x = title_list.split(",")
-        if title_list_x[3].count("R") >= 1:
-            print("*", i, title_list_x[0], "  by ", end="\t")
-        else:
-            print(i, title_list_x[0], "  by ", end="\t")
+def list_all_books(base_list):
+    base_list.sort()
+    base_list_length = len(base_list)
+    print(base_list_length)
 
-        print(title_list_x[1], end="\t")
-        print(title_list_x[2], " pages")
-        if title_list_x[3].count("R") >= 1:
-            pages_sum += int(title_list_x.pop(2))
-    print("Total pages required: ", pages_sum)
-    book_list.close()
-    print(MENU)
+    for i in range(0, base_list_length):
+        print(base_list[i])
 
 
-def add_book_to_list():
-    get_books = open("book_file.csv", "r")
-    list_of_books = []
-    for line in get_books:
-        list_of_books.append(line)
+def add_book_to_list(base_list):
     try:
         title = input("Title: ")
     except EOFError:
@@ -95,29 +85,14 @@ def add_book_to_list():
     except (ValueError, EOFError):
         print("Invalid input")
         pages = int(input("Pages: "))
-    for i in range(0, len(list_of_books)):
-        print(list_of_books[i])
+
     book = [title, author, pages, "R"]
-    list_of_books.append(book)
+    base_list.append(book)
     print(book)
-    get_books.close()
-    return list_of_books
 
 
-def mark_as_completed():
-    input_file = open("book_file.csv", "r")
-    try:
-        file_mark = int(input("Which book would you like to mark as completed? "))
-    except ValueError:
-        file_mark = int(input("Which book would you like to mark as completed? "))
-    required_mark = input_file.readlines()
-    print(required_mark[file_mark])
-    removing = required_mark[file_mark]
-    removing_new = removing.replace('R', '', )
-    print(removing_new)
-    required_mark[file_mark] = removing_new
-    input_file.close()
-    return removing_new, file_mark
+def mark_as_completed(file_mark, base_list):
+    print(base_list[1])
 
 
 main()
