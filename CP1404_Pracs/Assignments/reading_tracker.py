@@ -9,7 +9,6 @@ Menu based program, store book lists in file and modify them when needed.
 """
 
 
-
 def main():
     display_book_amount()
     name = input("Please enter your name ")
@@ -31,17 +30,18 @@ def main():
             menu_choice = input("Please select an option").upper()
         elif menu_choice == "M":
             try:
+
                 file_mark = int(input("Which book would you like to mark as completed? "))
                 menu_choice = mark_as_completed(base_list, file_mark)
             except IndexError:
                 print("Incorrect Index")
                 continue
 
-        menu_choice = input("Please select an option").upper()
+            menu_choice = input("Please select an option").upper()
 
     output_file = open("book_file.csv", "w")
     print(len(base_list))
-    base_list.sort()
+
     base_list_len = len(base_list)
     for i in range(0, base_list_len):
         output_file.write(str(base_list[i]))
@@ -83,6 +83,7 @@ def list_all_books(base_list):
 
         split_list = string_list.split(',')
         title = split_list[0].replace('["', "")
+        title[0].replace("[", "")
         author = split_list[1].replace("'", "")
         pages = split_list[2]
         if "R" in split_list[3]:
@@ -95,23 +96,24 @@ def list_all_books(base_list):
 
 
 def add_book_to_list(base_list):
-    try:
-        title = input("Title: ").title()
-    except EOFError:
-        title = input("Title cannot be blank ").title()
-    try:
-        author = input("Author: ").title()
-    except EOFError:
-        author = input("Author cannot be blank ").title()
-    try:
-        pages = int(input("Pages: "))
-    except (ValueError, EOFError):
-        print("Invalid input")
-        pages = int(input("Pages: "))
+    while True:
 
-    book = [title, author, pages, "R"]
-    base_list.append(book)
-    print(book)
+        title = input("Title: ").title()
+        if len(title) <= 0:
+            title = input("Title cannot be blank ").title()
+
+        author = input("Author: ").title()
+        if len(author) <= 0:
+            author = input("Author cannot be blank ").title()
+        pages = int(input("Pages: "))
+        if pages <= 0 or not int:
+            print("Invalid input")
+            pages = int(input("Pages: "))
+
+        book = [title, author, pages, "R"]
+        base_list.append(book)
+        print(book)
+        break
 
 
 main()
