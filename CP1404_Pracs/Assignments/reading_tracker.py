@@ -7,7 +7,7 @@ Menu based program, store book lists in file and modify them when needed.
 
 
 """
-from operator import itemgetter
+
 
 
 def main():
@@ -32,19 +32,30 @@ def main():
         elif menu_choice == "M":
             try:
                 file_mark = int(input("Which book would you like to mark as completed? "))
-            except:
-                file_mark = int(input("Which book would you like to mark as completed? "))
+                menu_choice = mark_as_completed(base_list, file_mark)
+            except IndexError:
+                print("Incorrect Index")
+                continue
 
-            file_changes = [mark_as_completed(file_mark, base_list)]
-            base_list[file_mark] = file_changes[0]
+        menu_choice = input("Please select an option").upper()
 
     output_file = open("book_file.csv", "w")
     print(len(base_list))
+    base_list.sort()
     base_list_len = len(base_list)
     for i in range(0, base_list_len):
         output_file.write(str(base_list[i]))
 
     output_file.close()
+
+
+def mark_as_completed(base_list, file_mark):
+    base_list_length = len(base_list)
+    string_list = str(base_list[file_mark])
+    string_list.replace("R", "C", -1)
+    base_list[file_mark] = string_list
+
+    return base_list
 
 
 MENU = "Menu: \n" \
@@ -66,18 +77,21 @@ def display_book_amount():
 def list_all_books(base_list):
     base_list.sort()
     base_list_length = len(base_list)
-    for i in range(0,base_list_length):
+    pages_required = 0
+    for i in range(0, base_list_length):
         string_list = str(base_list[i])
 
         split_list = string_list.split(',')
-        title = split_list[0].replace('[', "")
+        title = split_list[0].replace('["', "")
         author = split_list[1].replace("'", "")
         pages = split_list[2]
         if "R" in split_list[3]:
-            print("*",end="")
+            print("*", end="")
+            pages_required += int(pages)
         print("Title: ", title, end="\t")
         print("Author: ", author, end="\t")
         print("Pages: ", pages)
+    print("Pages required: ", pages_required)
 
 
 def add_book_to_list(base_list):
@@ -98,10 +112,6 @@ def add_book_to_list(base_list):
     book = [title, author, pages, "R"]
     base_list.append(book)
     print(book)
-
-
-def mark_as_completed(file_mark, base_list):
-    print(base_list[1])
 
 
 main()
