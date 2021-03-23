@@ -1,6 +1,7 @@
 """
 Patrick Robinson
 12251568
+Date Started: 20/3/2021
 Menu based program, store book lists in file and modify them when needed.
 
 
@@ -17,7 +18,6 @@ def main():
     input_file = open("book_file.csv", "r")
     base_list = input_file.readlines()
     input_file.close()
-    print(base_list)
 
     menu_choice = input("Please select an option").upper()
     while menu_choice != "Q":
@@ -36,16 +36,15 @@ def main():
             except IndexError:
                 print("Incorrect Index")
                 continue
-
+            print("Number : ", file_mark, " has been completed")
             menu_choice = input("Please select an option").upper()
 
     output_file = open("book_file.csv", "w")
-    print(len(base_list))
 
     base_list_len = len(base_list)
     for i in range(0, base_list_len):
         output_file.write(str(base_list[i]))
-
+    print(base_list_len, " books saved to file")
     output_file.close()
 
 
@@ -87,9 +86,10 @@ def list_all_books(base_list):
         author = split_list[1].replace("'", "")
         pages = split_list[2]
         if "R" in split_list[3]:
-            print("*", end="")
+            print("* ", end="")
             pages_required += int(pages)
-        print("Title: ", title, end="\t")
+        print(i+1,end="")
+        print(" Title: ", title, end="\t")
         print("Author: ", author, end="\t")
         print("Pages: ", pages)
     print("Pages required: ", pages_required)
@@ -112,7 +112,7 @@ def add_book_to_list(base_list):
 
         book = [title, author, pages, "R"]
         base_list.append(book)
-        print(book)
+        print(book, " has been added to the list")
         break
 
 
